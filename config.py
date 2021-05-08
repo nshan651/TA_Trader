@@ -1,0 +1,7 @@
+# List of API keys
+
+ALPACA_API_KEY = "PKV6PG76ZRMOXUSLQMC6"
+ALPACA_SECRET_KEY = "YD22E2jiKZRfer69McRcQIJX0kxGpXy13I0oTIzN"
+ALPACA_BASE_URL = "https://paper-api.alpaca.markets"
+AMERITRADE_TOKEN = 'https://api.tdameritrade.com/v1/oauth2/token'
+AMERITRADE_KEY = '6JWAH9JYWA5CSCOG5WC6PAPLYIASBTTV'
