@@ -12,12 +12,15 @@ TA-Trader is an alogrithmic trader that uses technical analysis to buy and sell 
 ## Trading Strategy ##
 
 I used the **Moving Average Convergence Divergence (MACD)** technical indicator for my trading strategy. The MACD has three main components. 
+
 ![alt text](images/macd_eq.jpg?raw=True "Data Header format.")
 <br><br>
 First, there is the 12-day and 26-day **Exponential Moving Averages (EMA)** which represent a fast and a slow period. The fast period minus the slow period gives us the MACD.
+
 ![alt text](images/ema_eq.jpg?raw=True "Data Header format.")
 <br><br>
 Second is the **signal line**, which is the 9-day EMA of the MACD line. 
+
 ![alt text](images/signal_eq.jpg?raw=True "Data Header format.")
 <br><br>
 The final element is the MACD minus the signal line, which is also known as the **histogram**. This is useful for identifying changes in momentum, and is what I will mainly be using.
