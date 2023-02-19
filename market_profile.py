@@ -3,16 +3,16 @@ import yfinance as yf
 import config
 import pandas as pd
 import json
-
+import os
 
 # MarketProfile provides basic access to Alpaca trading account
 class MarketProfile:
     def __init__(self):
         # API calls
-        self.paca = tradeapi.REST(config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY,
-                                  config.ALPACA_BASE_URL, api_version='v2')
-
-
+        #self.paca = tradeapi.REST(config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY,
+        #                          config.ALPACA_BASE_URL, api_version='v2')
+        self.paca = tradeapi.REST(os.environ['ALPACA_API_KEY'], os.environ['ALPACA_SECRET_KEY'],
+                                  os.environ['ALPACA_BASE_URL'], api_version='v2')
     # Check if a position is held
     def has_position(self, symbol):
         try:
@@ -21,12 +21,10 @@ class MarketProfile:
         except:
             return False
 
-
     # Get the total value of the account
     def get_total_equity(self):
         account = self.paca.get_account()
-        return float(account.equity)
-
+        return account.equity 
 
     # Close exisiting position on a stock
     def close_position(self, symbol):
@@ -36,7 +34,6 @@ class MarketProfile:
             self.paca.close_position(symbol)
         except:
             print('No positions held for {}\n'.format(symbol))
-
 
     # Place a simple order
     def simple_order(self, symbol, qty, side, order_type, time_in_force):
@@ -53,7 +50,6 @@ class MarketProfile:
             time_in_force=time_in_force,
         )
         print('Bought 10 shares of {}\n'.format(symbol))
-
 
     # Place a bracket order
     def bracket_order(self, symbol, side, order_type, time_in_force):
@@ -76,13 +72,11 @@ class MarketProfile:
         )
         print('Bought {} shares of {} at {} per share with stop price @ -5% and limit @ +3%\n'.format(shares, symbol, current_price))
 
-
     # Get the current asking price using yfinance
     def get_price(self, ticker):
         stock =  yf.Ticker(ticker)
         current = stock.history(period='1d')
         return current['Close'][0]
-
 
     def get_portfolio(self):
     
@@ -91,8 +85,8 @@ class MarketProfile:
         print(data)
         return data
 
-
-mp = MarketProfile()
+#mp = MarketProfile()
 #print(mp.get_total_equity())
-mp.get_portfolio()
-#mp.get_total_equity()
+#print(os.environ)
+print(os.environ.get("TEST"))
+print(os.environ.get("ZDOTDIR"))

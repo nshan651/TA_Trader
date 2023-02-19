@@ -16,7 +16,7 @@ def update_csv(tickers):
     for ticker in tickers:
         data = yf.download(tickers=ticker, group_by='Close', interval='15m', period='45d')
         close = data['Close']
-        close_list = close.to_csv('C:\python_projects\AlgoTrader\daily_data\stock_data_{ticker}.csv'.format(ticker=ticker))
+        close_list = close.to_csv(f'/home/nick/git/TA_Trader/daily_data/stock_data_{ticker}.csv')
     return close_list
 
 
@@ -31,7 +31,7 @@ def update_single_csv(ticker):
     data = stock.history(period='3mo', interval='1d')
     hist = pd.DataFrame(data=data, columns=['Close'])
     hist.reset_index(inplace=True)
-    hist.to_csv('C:\python_projects\AlgoTrader\daily_data\stock_data_{ticker}.csv'.format(ticker=ticker))
+    hist.to_csv(f'/home/nick/git/TA_Trader/daily_data/stock_data_{ticker}.csv')
 
 
 def read_data(f_name):

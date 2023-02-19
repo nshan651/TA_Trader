@@ -4,13 +4,14 @@ import indicator as ind
 import pandas as pd
 import asyncio
 import time
+import threading
 
 
 STOCK_BASKET = ['ENTG', 'ESNT', 'GRBK', 'HMY', 'QRVO', 'NOVA', 'LAC', 'TSLA', 'ARKK', 'SHW']
 
 
 def main():
-    trade_loop()
+    asyncio.run(update_indicators())
 
 
 def trade_algo():
@@ -25,12 +26,12 @@ def trade_algo():
 
     # Compute macd
     for ticker in STOCK_BASKET:
-        ind.macd('C:\python_projects\AlgoTrader\daily_data\stock_data_{}.csv'.format(ticker), '15m')
+        ind.macd(f'/home/nick/git/TA_Trader/daily_data/stock_data_{ticker}.csv', '15m')
 
     # Place trades
     market = mp.MarketProfile()
     for ticker in STOCK_BASKET:
-        df = pd.read_csv('C:\python_projects\AlgoTrader\daily_data\stock_data_{}.csv'.format(ticker))
+        df = pd.read_csv(f'/home/nick/git/TA_Trader/daily_data/stock_data_{ticker}.csv')
         hist = df.iloc[len(df)-1]['Hist']
         if (hist > 0.05):
             print('MACD is for {} is above the signal line, attempting to placing trade'.format(ticker))
@@ -43,21 +44,6 @@ def trade_algo():
             market.close_position(ticker)
         else:
             print('MACD is neutral for {}, no trades made\n'.format(ticker))
-
-
-def trade_loop():
-    '''
-    Set up event loop and start placing trades
-    trade_loop() --> update_indicators() --> trade_algo() -- Repeat
-    '''
-    loop = asyncio.get_event_loop()
-    try:
-        asyncio.ensure_future(update_indicators())
-        loop.run_forever()
-    except KeyboardInterrupt:
-        pass
-    finally:
-        loop.close()
 
 
 async def update_indicators():
